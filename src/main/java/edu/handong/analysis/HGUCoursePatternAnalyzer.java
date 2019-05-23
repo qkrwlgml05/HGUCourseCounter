@@ -7,8 +7,8 @@ import java.util.TreeMap;
 
 import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
-import edu.handong.analysise.utils.NotEnoughArgumentException;
-import edu.handong.analysise.utils.Utils;
+import edu.handong.analysis.utils.NotEnoughArgumentException;
+import edu.handong.analysis.utils.Utils;
 
 public class HGUCoursePatternAnalyzer {
 
@@ -53,10 +53,20 @@ public class HGUCoursePatternAnalyzer {
 	 * @return
 	 */
 	private HashMap<String,Student> loadStudentCourseRecords(ArrayList<String> lines) {
+		HashMap<String,Student> students = new HashMap<String,Student>();
 		
 		// TODO: Implement this method
+		for (String line : lines) {
+			String key = line.split(",")[0].trim();
+			if (!students.containsKey(key)){
+				students.put(key, new Student(key));
+				students.get(key).addCourse(new Course(line));
+			} else {
+				students.get(key).addCourse(new Course(line));
+			}
+		}
 		
-		return null; // do not forget to return a proper variable.
+		return students; // do not forget to return a proper variable.
 	}
 
 	/**
@@ -75,7 +85,16 @@ public class HGUCoursePatternAnalyzer {
 	private ArrayList<String> countNumberOfCoursesTakenInEachSemester(Map<String, Student> sortedStudents) {
 		
 		// TODO: Implement this method
+		ArrayList<String> countNumber = new ArrayList<String>();
+		countNumber.add("StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester");
+		for (String key : sortedStudents.keySet()) {
+			HashMap<String, Integer> semester = sortedStudents.get(key).getSemesterByYearAndSemester();
+			for (String key2 : semester.keySet()) { //key2 is yearTaken-semesterCourseTaken
+				String line = key + ", " + semester.size() + ", " + semester.get(key2) + ", " + sortedStudents.get(key).getNumCourseInNthSementer(semester.get(key2));
+				countNumber.add(line); //the line is StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester
+			}
+		}
 		
-		return null; // do not forget to return a proper variable.
+		return countNumber; // do not forget to return a proper variable.
 	}
 }
