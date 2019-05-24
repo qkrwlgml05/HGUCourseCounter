@@ -60,10 +60,8 @@ public class HGUCoursePatternAnalyzer {
 			String key = line.split(",")[0].trim();
 			if (!students.containsKey(key)){
 				students.put(key, new Student(key));
-				students.get(key).addCourse(new Course(line));
-			} else {
-				students.get(key).addCourse(new Course(line));
 			}
+			students.get(key).addCourse(new Course(line));
 		}
 		
 		return students; // do not forget to return a proper variable.

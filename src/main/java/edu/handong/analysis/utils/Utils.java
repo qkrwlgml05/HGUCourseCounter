@@ -36,10 +36,8 @@ public class Utils {
 				fi.getParentFile().mkdirs();
 			}
 			pw = new PrintWriter(targetFileName);
-			for (String line : lines) {
+			for (String line : lines) 
 				pw.println(line);
-				System.out.println(line);
-			}
 		}catch (IOException e) {
 			System.out.println("directory making error");
 			System.exit(0);
