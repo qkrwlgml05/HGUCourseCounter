@@ -3,6 +3,7 @@ package edu.handong.analysis.utils;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.io.PrintWriter;
 
@@ -33,7 +34,7 @@ public class Utils {
 			pw = new PrintWriter(targetFileName);
 			for (String line : lines)
 				pw.println(line);
-		}catch (FileNotFoundException e) {
+		}catch (IOException e) {
 			System.exit(0);
 		}
 	}
