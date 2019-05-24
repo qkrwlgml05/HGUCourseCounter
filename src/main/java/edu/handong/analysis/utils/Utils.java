@@ -21,7 +21,7 @@ public class Utils {
 				line.add(read);
 			}
 		} catch (FileNotFoundException e ) {
-			System.out.println("no file.");
+			System.out.println("The file path does not exist. Please check your CLI argument!");
 			System.exit(0);
 		}
 		
@@ -31,10 +31,17 @@ public class Utils {
 	public static void writeAFile (ArrayList<String> lines, String targetFileName) {
 		PrintWriter pw = null;
 		try {
+			File fi = new File(targetFileName);
+			if (!fi.exists()) {
+				fi.getParentFile().mkdirs();
+			}
 			pw = new PrintWriter(targetFileName);
-			for (String line : lines)
+			for (String line : lines) {
 				pw.println(line);
+				System.out.println(line);
+			}
 		}catch (IOException e) {
+			System.out.println("directory making error");
 			System.exit(0);
 		}
 	}
