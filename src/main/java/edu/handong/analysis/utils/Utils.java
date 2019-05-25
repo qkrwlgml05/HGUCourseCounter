@@ -24,6 +24,7 @@ public class Utils {
 			System.out.println("The file path does not exist. Please check your CLI argument!");
 			System.exit(0);
 		}
+		fl.close();
 		
 		return line;
 	}
@@ -38,6 +39,7 @@ public class Utils {
 			pw = new PrintWriter(targetFileName);
 			for (String line : lines) 
 				pw.println(line);
+			pw.close();
 		}catch (IOException e) {
 			System.out.println("directory making error");
 			System.exit(0);
