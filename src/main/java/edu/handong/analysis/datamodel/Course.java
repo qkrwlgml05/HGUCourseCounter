@@ -1,5 +1,9 @@
 package edu.handong.analysis.datamodel;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
 public class Course {
 	private String studentId;
 	private String yearMonthGraduated;
@@ -11,29 +15,36 @@ public class Course {
 	private int yearTaken;
 	private int semesterCourseTaken;
 	
-	public Course(String line) {
-		String[] lines = line.split(",");
-		studentId = lines[0].trim();
-		yearMonthGraduated = lines[1].trim();
-		firstMajor = lines[2].trim();
-		secondMajor = lines[3].trim();
-		courseCode = lines[4].trim();
-		courseName = lines[5].trim();
-		CourseCredit = lines[6].trim();
-		yearTaken = Integer.parseInt(lines[7].trim());
-		semesterCourseTaken = Integer.parseInt(lines[8].trim());
+	public Course(CSVRecord line) {
+		studentId = line.get(0).trim();
+		yearMonthGraduated = line.get(1).trim();
+		firstMajor = line.get(2).trim();
+		secondMajor = line.get(3).trim();
+		courseCode = line.get(4).trim();
+		courseName = line.get(5).trim();
+		CourseCredit = line.get(6).trim();
+		yearTaken = Integer.parseInt(line.get(7).trim());
+		semesterCourseTaken = Integer.parseInt(line.get(8).trim());
 	}
 	
-	int getYearTaken () {
+	public int getYearTaken () {
 		return yearTaken;
 	}
 	
-	int getSemesterCourseTaken () {
+	public int getSemesterCourseTaken () {
 		return semesterCourseTaken;
 	}
 	
-	String getCurseName () {
+	public String getCourseName () {
 		return courseName;
+	}
+
+	public String getCourseCode () {
+		return courseCode;
+	}
+	
+	public String getStudentId () {
+		return studentId;
 	}
 
 }

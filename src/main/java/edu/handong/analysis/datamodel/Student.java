@@ -49,4 +49,5 @@ public class Student {
 	public ArrayList<Course> getCoursesTaken () {
 		return coursesTaken;
 	}
+	
 }
