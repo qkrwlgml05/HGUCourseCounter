@@ -225,7 +225,8 @@ public class HGUCoursePatternAnalyzer {
 			for (int i = startYear; i <= endYear; i++) {
 				for (int j = 1; j <= 4; j++) {
 					String line = makeLine(sortedStudents, i, j);
-					countNumber.add(line);
+					if (line != null) 
+						countNumber.add(line);
 				}
 			}
 		}
@@ -236,7 +237,6 @@ public class HGUCoursePatternAnalyzer {
 	private String makeLine (Map<String, Student> sortedStudents, int year, int semester) {
 		String line = null;
 		int studentTaken = 0;
-		float rate = 0;
 		//String courseName = null;
 		ArrayList<String> courseStudents = new ArrayList<String>();
 		
@@ -253,8 +253,8 @@ public class HGUCoursePatternAnalyzer {
 				}
 			}
 		}
-		if(courseStudents.size() != 0) rate = (float) studentTaken * 100 / courseStudents.size();
-		
+		if(courseStudents.size() == 0) return null;
+		float rate = (float) studentTaken * 100 / courseStudents.size();
 		line = year + "," + semester + "," + courseCode + "," + courseName + "," + courseStudents.size() 
 		+ "," + studentTaken + "," + String.format("%.1f", rate) + "%";
 		return line;
