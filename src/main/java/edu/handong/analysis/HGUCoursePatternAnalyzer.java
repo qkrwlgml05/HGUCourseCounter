@@ -95,7 +95,6 @@ public class HGUCoursePatternAnalyzer {
 			help = cmd.hasOption("h");
 		} catch (Exception e) {
 			printHelp(options);
-			System.out.println(e);
 			return false;
 		}
 
