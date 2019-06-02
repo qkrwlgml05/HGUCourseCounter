@@ -213,7 +213,7 @@ public class HGUCoursePatternAnalyzer {
 				TreeMap<String, Integer> semester = new TreeMap<String, Integer>(sortedStudents.get(key).getSemesterByYearAndSemester());
 				for (String key2 : semester.keySet()) { //key2 is yearTaken-semesterCourseTaken
 					int year = Integer.parseInt(key2.split("-")[0].trim());
-					if (year > endYear || year <= startYear) continue;
+					if (year > endYear || year < startYear) continue;
 					String line = key + "," + semester.size() + "," + semester.get(key2) + "," + sortedStudents.get(key).getNumCourseInNthSementer(semester.get(key2));
 					countNumber.add(line); //the line is StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester
 				}
