@@ -48,7 +48,6 @@ public class Utils {
 			for (String line : lines) 
 				pw.println(line);
 			
-			
 			pw.close();
 		}catch (IOException e) {
 			System.out.println("directory making error");

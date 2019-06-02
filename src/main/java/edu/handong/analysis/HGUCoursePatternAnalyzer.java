@@ -22,6 +22,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.math3.geometry.euclidean.twod.Line;
 
 public class HGUCoursePatternAnalyzer {
 
@@ -34,6 +35,8 @@ public class HGUCoursePatternAnalyzer {
 	private int startYear;
 	private int endYear;
 	private boolean help;
+	
+	private String courseName = null;
 	
 	/**
 	 * This method runs our analysis logic to save the number courses taken by each student per semester in a result file.
@@ -172,12 +175,16 @@ public class HGUCoursePatternAnalyzer {
 		HashMap<String,Student> students = new HashMap<String,Student>();
 		
 		// TODO: Implement this method
-		for (int i = 0; i < lines.size(); i++) {
-			String key = lines.get(i).get(0);//key is student id
+		for (CSVRecord line : lines) {
+			String key = line.get(0);//key is student id
 			if (!students.containsKey(key))
 				students.put(key, new Student(key));
 			
-			students.get(key).addCourse(new Course(lines.get(i)));
+			if (analysis == 2 && line.get(4).trim().equals(courseCode)) {
+				courseName = line.get(5).trim();
+			}
+			
+			students.get(key).addCourse(new Course(line));
 		}
 		return students; // do not forget to return a proper variable.
 	}
@@ -215,8 +222,8 @@ public class HGUCoursePatternAnalyzer {
 		} else if (analysis == 2) {
 			countNumber.add("Year,Semester,CouseCode,CourseName,TotalStudents,StudentsTaken,Rate");
 			
-			for (int i = startYear; i < endYear; i++) {
-				for (int j = 1; j <= 2; j++) {
+			for (int i = startYear; i <= endYear; i++) {
+				for (int j = 1; j <= 4; j++) {
 					String line = makeLine(sortedStudents, i, j);
 					if (line != null) countNumber.add(line);
 				}
@@ -229,7 +236,7 @@ public class HGUCoursePatternAnalyzer {
 	private String makeLine (Map<String, Student> sortedStudents, int year, int semester) {
 		String line = null;
 		int studentTaken = 0;
-		String courseName = null;
+		//String courseName = null;
 		ArrayList<String> courseStudents = new ArrayList<String>();
 		
 		for (String key : sortedStudents.keySet()) {
@@ -245,12 +252,10 @@ public class HGUCoursePatternAnalyzer {
 				}
 			}
 		}
-		if (studentTaken == 0) return null;
-		int rate1 = studentTaken * 100 / courseStudents.size();
-		int rate2 = (studentTaken * 1000 / courseStudents.size()) % 10;
+		if(courseStudents.size() == 0) return null;
+		float rate = (float) studentTaken * 100 / courseStudents.size();
 		line = year + "," + semester + "," + courseCode + "," + courseName + "," + courseStudents.size() 
-		+ "," + studentTaken + "," + rate1 + "." +rate2 + "%";
-		System.out.println(line);
+		+ "," + studentTaken + "," + String.format("%.1f", rate) + "%";
 		return line;
 	}
 }
